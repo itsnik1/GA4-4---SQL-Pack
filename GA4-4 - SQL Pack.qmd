@@ -191,4 +191,4 @@ ORDER BY date;
 # Appendix
 
 - [GitHub Repository](https://github.com/itsnik1/GA4-4---SQL-Pack)
-- [GitHub Pages Report]()
+- [GitHub Pages Report](https://itsnik1.github.io/GA4-4---SQL-Pack/)
