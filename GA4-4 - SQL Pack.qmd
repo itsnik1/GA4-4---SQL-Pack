@@ -17,7 +17,7 @@ For this assignment, I used the public GA4 sample ecommerce dataset. All eight q
 
 This query pulls the first 100 page view events in November so I can inspect the event data. Each row is one page view, so the same user can appear more than once.
 
-```sql
+``` sql
 SELECT
   event_date,
   TIMESTAMP_MICROS(event_timestamp) AS event_time,
@@ -34,7 +34,7 @@ LIMIT 100;
 
 This query lists purchase events with positive recorded revenue in USD, sorted from highest to lowest. It helps me inspect larger purchases, but it leaves out purchases with missing or zero revenue and does not subtract refunds.
 
-```sql
+``` sql
 SELECT
   event_date,
   user_pseudo_id,
@@ -51,7 +51,7 @@ ORDER BY revenue_usd DESC;
 
 This query counts how many times each event happened to show which actions were recorded most often. These are event counts, not user counts, since one user can trigger the same event multiple times.
 
-```sql
+``` sql
 SELECT
   event_name,
   COUNT(*) AS event_count
@@ -65,7 +65,7 @@ ORDER BY event_count DESC;
 
 This query counts distinct user IDs for each device category to compare desktop, mobile, and tablet activity. These IDs represent observed browser or app instances rather than guaranteed unique people, so the totals should not be treated as a count of individual people.
 
-```sql
+``` sql
 SELECT
   device.category AS device_category,
   COUNT(DISTINCT user_pseudo_id) AS users
@@ -79,7 +79,7 @@ ORDER BY users DESC;
 
 This query uses `UNNEST(event_params)` to extract `page_location` as a string, then counts views for each URL to find the busiest pages. It excludes missing URLs, and URLs with different query strings are counted separately.
 
-```sql
+``` sql
 WITH page_views AS (
   SELECT
     (
@@ -105,7 +105,7 @@ LIMIT 10;
 
 This query extracts `ga_session_id` as an integer and counts distinct user-and-session pairs to measure visits instead of events. It excludes missing IDs and counts sessions with activity during November, including sessions that may have started before the month.
 
-```sql
+``` sql
 WITH session_events AS (
   SELECT
     user_pseudo_id,
@@ -134,7 +134,7 @@ FROM unique_sessions;
 
 This query adds up recorded purchase revenue in USD for each day to show how sales activity changed during November. The totals do not subtract refunds, `SUM` ignores missing revenue values, and days without purchase events do not appear.
 
-```sql
+``` sql
 SELECT
   PARSE_DATE('%Y%m%d', event_date) AS date,
   COUNT(*) AS purchase_events,
@@ -150,7 +150,7 @@ ORDER BY date;
 
 This query joins daily user totals with daily purchaser totals to show the percentage of observed users who made a purchase each day. This helps compare purchasing activity across days, but it is a user-based percentage rather than a session conversion rate, and the same user can count on multiple days.
 
-```sql
+``` sql
 WITH base_events AS (
   SELECT
     event_date,
@@ -190,5 +190,5 @@ ORDER BY date;
 
 # Appendix
 
-- [GitHub Repository]()
+- [GitHub Repository](https://github.com/itsnik1/GA4-4---SQL-Pack)
 - [GitHub Pages Report]()
